@@ -17,6 +17,8 @@
 @property (nonatomic, strong) NSString *releaseMessage;    // Defaults to @"Release to Refresh"
 @property (nonatomic, strong) NSString *refreshingMessage; // Defaults to @"Refreshing..."
 
+@property (nonatomic, assign) int pullOffsetThreshold; // defaults to 50
+
 - (void)beginRefreshing;
 - (void)endRefreshing;
 

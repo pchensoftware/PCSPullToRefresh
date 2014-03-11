@@ -41,6 +41,7 @@ typedef NS_ENUM(int, PCSPullToRefreshState) {
       [self addSubview:self.refreshLabel];
       
       self.bottomScrollView = NO;
+      self.pullOffsetThreshold = kPullOffsetThreshold;
       
       self.pullMessage = @"Pull to Refresh";
       self.releaseMessage = @"Release to Refresh";
@@ -109,9 +110,9 @@ typedef NS_ENUM(int, PCSPullToRefreshState) {
       
       if (self.bottomScrollView)
          isContentOffsetPastThreshold = offsetY > (self.parentScrollView.contentSize.height - self.parentScrollView.frame.size.height +
-                                                   self.parentScrollView.contentInset.top + kPullOffsetThreshold);
+                                                   self.parentScrollView.contentInset.top + self.pullOffsetThreshold);
       else
-         isContentOffsetPastThreshold = offsetY < -kPullOffsetThreshold;
+         isContentOffsetPastThreshold = offsetY < -self.pullOffsetThreshold;
       
       if (self.refreshState == PCSPullToRefreshStateIdle) {
          if (self.parentScrollView.dragging && isContentOffsetPastThreshold)
