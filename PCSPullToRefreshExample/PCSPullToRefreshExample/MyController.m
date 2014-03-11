@@ -32,6 +32,9 @@
    
    self.tableView.pcsRefreshControl = [[PCSPullToRefresh alloc] init];
    [self.tableView.pcsRefreshControl addTarget:self action:@selector(_refreshDidBegin) forControlEvents:UIControlEventValueChanged];
+   
+   self.tableView.pcsRefreshControlBottom = [[PCSPullToRefresh alloc] init];
+   [self.tableView.pcsRefreshControlBottom addTarget:self action:@selector(_refreshBottomDidBegin) forControlEvents:UIControlEventValueChanged];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -48,7 +51,14 @@
 }
 
 - (void)_refreshDidBegin {
+   NSLog(@"Refresh top");
    [self.tableView.pcsRefreshControl performSelector:@selector(endRefreshing) withObject:nil afterDelay:2];
 }
+
+- (void)_refreshBottomDidBegin {
+   NSLog(@"Refresh bottom");
+   [self.tableView.pcsRefreshControlBottom performSelector:@selector(endRefreshing) withObject:nil afterDelay:2];
+}
+
 
 @end

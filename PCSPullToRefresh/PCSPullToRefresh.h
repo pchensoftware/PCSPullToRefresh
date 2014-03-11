@@ -24,6 +24,7 @@
 
 @interface UIScrollView (PCSPullToRefresh)
 
-@property (nonatomic, strong) PCSPullToRefresh *pcsRefreshControl;
+@property (nonatomic, strong) PCSPullToRefresh *pcsRefreshControl; // top
+@property (nonatomic, strong) PCSPullToRefresh *pcsRefreshControlBottom;
 
 @end
