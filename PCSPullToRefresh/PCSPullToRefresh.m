@@ -66,6 +66,13 @@ typedef NS_ENUM(int, PCSPullToRefreshState) {
    [scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
 }
 
+- (void)setPullMessage:(NSString *)pullMessage {
+   _pullMessage = pullMessage;
+   
+   if (self.refreshState == PCSPullToRefreshStateIdle)
+      self.refreshLabel.text = pullMessage;
+}
+
 - (void)setRefreshState:(PCSPullToRefreshState)refreshState {
    _refreshState = refreshState;
    
