@@ -12,6 +12,9 @@
 static const int kHeight = 100;
 static const int kPullOffsetThreshold = 50;
 
+#define kContentOffsetKeypath @"contentOffset"
+#define kContentSizeKeypath   @"contentSize"
+
 typedef NS_ENUM(int, PCSPullToRefreshState) {
    PCSPullToRefreshStateIdle,
    PCSPullToRefreshStateRelease,
@@ -52,9 +55,16 @@ typedef NS_ENUM(int, PCSPullToRefreshState) {
    return self;
 }
 
-- (void)dealloc {
-   [self.superview removeObserver:self forKeyPath:@"contentOffset"];
-   [self.superview removeObserver:self forKeyPath:@"contentSize"];
+- (void)willMoveToSuperview:(UIView *)newSuperview {
+   BOOL isRemovingFromParentScrollView = ! newSuperview;
+   if (isRemovingFromParentScrollView) {
+      @try {
+         // Remove observer here, not in dealloc, b/c self.parentScrollView will be nil at that point
+         [self.parentScrollView removeObserver:self forKeyPath:kContentOffsetKeypath];
+         [self.parentScrollView removeObserver:self forKeyPath:kContentSizeKeypath];
+      }
+      @catch (NSException *exception) {}
+   }
 }
 
 - (UIScrollView *)parentScrollView {
@@ -79,10 +89,10 @@ typedef NS_ENUM(int, PCSPullToRefreshState) {
    self.frame = frame;
    self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
    
-   [scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
+   [scrollView addObserver:self forKeyPath:kContentOffsetKeypath options:NSKeyValueObservingOptionNew context:nil];
    
    if (self.bottomScrollView)
-      [scrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:nil];
+      [scrollView addObserver:self forKeyPath:kContentSizeKeypath options:NSKeyValueObservingOptionNew context:nil];
 }
 
 - (void)setPullMessage:(NSString *)pullMessage {
@@ -104,7 +114,7 @@ typedef NS_ENUM(int, PCSPullToRefreshState) {
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-   if ([keyPath isEqualToString:@"contentOffset"]) {
+   if ([keyPath isEqualToString:kContentOffsetKeypath]) {
       int offsetY = self.parentScrollView.contentOffset.y + self.parentScrollView.contentInset.top;
       BOOL isContentOffsetPastThreshold;
       
@@ -129,7 +139,7 @@ typedef NS_ENUM(int, PCSPullToRefreshState) {
          }
       }
    }
-   else if ([keyPath isEqualToString:@"contentSize"]) {
+   else if ([keyPath isEqualToString:kContentSizeKeypath]) {
       if (self.bottomScrollView) {
          CGRect frame = self.frame;
          frame.origin.y = self.parentScrollView.contentSize.height;
