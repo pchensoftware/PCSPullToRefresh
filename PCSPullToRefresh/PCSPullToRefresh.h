@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+// UIControlEventValueChanged will be sent when the pull and release past the threshold occurs
+
 @interface PCSPullToRefresh : UIControl
 
 @property (nonatomic, readonly) BOOL refreshing;
