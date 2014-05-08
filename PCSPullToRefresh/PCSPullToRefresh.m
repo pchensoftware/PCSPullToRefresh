@@ -125,7 +125,7 @@ typedef NS_ENUM(int, PCSPullToRefreshState) {
          isContentOffsetPastThreshold = offsetY < -self.pullOffsetThreshold;
       
       if (self.refreshState == PCSPullToRefreshStateIdle) {
-         if (self.parentScrollView.dragging && isContentOffsetPastThreshold)
+         if (self.parentScrollView.dragging && isContentOffsetPastThreshold && ! self.hidden)
             self.refreshState = PCSPullToRefreshStateRelease;
       }
       else if (self.refreshState == PCSPullToRefreshStateRelease) {

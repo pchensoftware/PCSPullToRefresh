@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-// UIControlEventValueChanged will be sent when the pull and release past the threshold occurs
+// UIControlEventValueChanged will be sent when the pull and release past the threshold occurs.
+// Set hidden=YES to hide AND disable the control.
 
 @interface PCSPullToRefresh : UIControl
 
