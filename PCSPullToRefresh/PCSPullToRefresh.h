@@ -14,7 +14,7 @@
 @interface PCSPullToRefresh : UIControl
 
 @property (nonatomic, readonly) BOOL refreshing;
-@property (nonatomic, readonly) UILabel *refreshLabel;
+@property (nonatomic, readonly) UILabel *refreshLabel;     // highlighted property set to YES in refreshing and release states
 
 @property (nonatomic, strong) NSString *pullMessage;       // Defaults to @"Pull to Refresh"
 @property (nonatomic, strong) NSString *releaseMessage;    // Defaults to @"Release to Refresh"

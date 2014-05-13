@@ -105,12 +105,24 @@ typedef NS_ENUM(int, PCSPullToRefreshState) {
 - (void)setRefreshState:(PCSPullToRefreshState)refreshState {
    _refreshState = refreshState;
    
-   if (PCSPullToRefreshStateIdle == refreshState)
+   if (PCSPullToRefreshStateIdle == refreshState) {
       self.refreshLabel.text = self.pullMessage;
-   else if (PCSPullToRefreshStateRelease == refreshState)
+      
+      if (self.refreshLabel.highlightedTextColor)
+         self.refreshLabel.highlighted = NO;
+   }
+   else if (PCSPullToRefreshStateRelease == refreshState) {
       self.refreshLabel.text = self.releaseMessage;
-   else
+      
+      if (self.refreshLabel.highlightedTextColor)
+         self.refreshLabel.highlighted = YES;
+   }
+   else {
       self.refreshLabel.text = self.refreshingMessage;
+      
+      if (self.refreshLabel.highlightedTextColor)
+         self.refreshLabel.highlighted = YES;
+   }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
